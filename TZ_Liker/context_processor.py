@@ -9,3 +9,4 @@ def global_context(request):
 	if not theme in ['light', 'dark']:
 		theme='dark'
 	return {'host':host, 'theme':theme}
+	

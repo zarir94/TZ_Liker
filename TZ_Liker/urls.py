@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+# from django.conf import settings
+# from django.conf.urls.static import static
 
-PATH = '/custom/'
-ROOT = settings.BASE_DIR / 'static'
+# PATH = '/custom/'
+# ROOT = settings.BASE_DIR / 'static'
 
 urlpatterns = [
     path('superuser/', admin.site.urls),
     path('', include('Home.urls')),
-] + static(PATH, document_root=ROOT)
+]# + static(PATH, document_root=ROOT)
