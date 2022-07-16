@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-PATH = '/files/'
+PATH = '/custom/'
 ROOT = settings.BASE_DIR / 'static'
 
 urlpatterns = [
