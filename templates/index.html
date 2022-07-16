@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}TZ Liker - Latest Facebook Auto Liker{% endblock %}
+{% block home %}active{% endblock %}
+{% block body %}
+<div align="center" id="intro" class="py-4 card" style="border-radius: 15px;">
+	<div class="card-body">
+		<h1 class="card-title">Welcome to TZ Liker</h1>
+		<p class="card-text">TZ Liker is an exchange system (like: Facebook Auto Liker, Auto Commenter & Auto Follower) which gives free Facebook likes, comments & followers to your public posts and profile at free of cost. TZ Liker is spam free and one of the latest auto liker website.</p>
+	</div>
+</div>
+<div align="center" class="mt-5">
+	<div style="max-width: 400px">
+		{% if request.user.is_anonymous %}
+		<button onclick="window.location.href='/login'" class="btn btn-primary btn-block">Login</button>
+		<p style="margin: 0;padding: 10px;">OR</p>
+		<button onclick="window.location.href='/register'" class="btn btn-outline-primary btn-block">Register</button>
+		{% else %}
+		<button onclick="window.location.href='/dashboard'" class="btn btn-primary ripple-surface btn-block">Go to Dashboard</button>
+		{% endif %}
+	</div>
+</div>
+<div align="center" id="whyuse" class="mt-4">
+	<h1>Why use TZ Liker</h1>
+	<ul class="mt-4">
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Instant Likes</h3>
+				<p class="card-text">You can increase your Facebook status, photo and video likes by using our auto liker. Our website also helps you get tons of likes on your public Facebook posts at free of cost.</p>
+			</div>
+		</div></li>
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">No Account Lock</h3>
+				<p class="card-text">We Use Cookies instead of token, so Facebook never detect unusual activity and not Lock Your Account, If you're using multiple website of auto liker at the same time then not our responsibility.</p>
+			</div>
+		</div></li>
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Absolutely Free</h3>
+				<p class="card-text">You can use any of our auto liker service with no exchange of money. TZ Liker has been offering a free service since it was published, you can delete your account anytime. You do not have to pay to get likes, comments, reactions etc.</p>
+			</div>
+		</div></li>
+	</ul>
+</div>
+<div align="center" id="sitestatus" class="mt-4">
+	<h1>Status</h1>
+	<ul class="mt-4">
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Users</h3>
+				<p class="card-text">We have <b>{{ active_users }}</b> active users. All users daily visit our site and get like, comments, reactions etc...</p>
+			</div>
+		</div></li>
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Likes</h3>
+				<p class="card-text">Total <b>{{ likes }}</b> likes served since site published. Our beloved users come here everyday and submit request for like, comment, reactions etc...</p>
+			</div>
+		</div></li>
+		<li><div class="card">
+			<div class="card-body">
+				<h3 class="card-title">Follows</h3>
+				<p class="card-text">Total <b>{{ follows }}</b> follows served since site published. Our beloved users come here everyday and submit request for like, comment, reactions etc...</p>
+			</div>
+		</div></li>
+	</ul>
+</div>
+{% endblock %}

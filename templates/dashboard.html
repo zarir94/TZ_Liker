@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - TZ Liker{% endblock %}
+{% block dashboard %}active{% endblock %}
+{% block body %}
+<div align="center">
+	<h1>Dashboard</h1>
+	<div style="max-width: 400px;margin-top: 1rem;">
+		<h3 class="text-left">Select any tool:</h3>
+		<button onclick="window.location.href='{{ host }}/dashboard/auto-like'" class="btn btn-block btn-primary ripple-surface">Auto Like</button>
+		<button onclick="window.location.href='{{ host }}/dashboard/auto-follow'" class="btn btn-block btn-primary ripple-surface">Auto Follow</button>
+		<button onclick="window.location.href='{{ host }}/dashboard/auto-comment'" class="btn btn-block btn-primary ripple-surface" disabled="">Auto Comment <span class="badge bg-warning">(Coming Soon)</span></button>
+		<button onclick="window.location.href='{{ host }}/dashboard/auto-share'" class="btn btn-block btn-primary ripple-surface" disabled="">Auto Share <span class="badge bg-warning">(Coming Soon)</span></button>
+	</div>
+</div>
+{% endblock %}

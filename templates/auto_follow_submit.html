@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Auto Followers - TZ Liker{% endblock %}
+{% block body %}
+<div align="center">
+	<h1>Auto Followers</h1>
+	<table>
+		<tr>
+			<td>Available Accounts: </td>
+			<td>{{ available_accounts }}</td>
+		</tr>
+		<tr>
+			<td>Followable Accounts: </td>
+			<td>{{ likable_accounts }}</td>
+		</tr>
+		<tr>
+			<td>Followed Accounts: </td>
+			<td>{{ liked_accounts }}</td>
+		</tr>
+	</table>
+	<h5 id="" class="text-success mt-2 mb-4">You can get {{ max }} followers</h5>
+	<div id="countdown" style="{% if not cooldown %}display: none;{% endif %}">
+		<p>You can submit again after</p>
+		<h1 id="time" class="text-warning">{{ minutes }}:{{ seconds }}</h1>
+		<p>Seconds</p>
+	</div>
+	<div id="submitform" style="max-width: 400px;{% if cooldown %}display: none;{% endif %}">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-outline mb-4 mt-4">
+				  <input required="" min="{{ min }}" max="{{ max }}" value="{{ max }}" class="form-control" id="amount" type="number" name="amount">
+				  <label class="form-label" for="amount">Follower Amount</label>
+			</div>
+			<button type="submit" id="submit" class="btn btn-block btn-primary">Submit</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+	startcountdown({{ time_remaining }})
+</script>
+{% endblock %}

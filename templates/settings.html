@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Settings - TZ Liker{% endblock %}
+{% block settings %}active{% endblock %}
+{% block body %}
+<div align="center">
+	<h1>Account Settings</h1>
+	<div style="max-width: 600px;" class="mt-4">
+		<div id="set-cookie" class="mt-4">
+			<form method="POST">
+				{% csrf_token %}
+				{% if request.user.has_cookie %}
+				<div class="form-outline mb-4">
+			    <input disabled="" class="form-control" id="fullname" type="text" name="fullname" value="{{ request.user.full_name }}">
+			    <label class="form-label" for="fullname">Full Name</label>
+			  </div>
+				<div class="form-outline mb-4">
+			    <input disabled="" class="form-control" id="profile-id" type="text" name="profile-id" value="{{ request.user.profile_id }}">
+			    <label class="form-label" for="profile-id">Profile ID</label>
+			  </div>
+				{% endif %}
+				<div class="form-outline mb-5">
+			    <textarea required="" rows="4" required="" type="text" id="cookie" name="cookie" class="form-control">{% if request.user.cookie != None %}{{ request.user.cookie }}{% endif %}</textarea>
+			    <label class="form-label" for="cookie">Your Facebook Cookie</label>
+			    <div align="left" class="form-helper">How to find facebook cookie? <a href="/tutorial#getcookie">Click here...</a></div align="left">
+			  </div>
+			  <button class="btn btn-primary btn-block mb-2" type="submit" name="submit">Set Cookie</button>
+			</form>
+		</div>
+		<div id="acc-delete">
+			<hr class="my-4">
+			<button class="btn btn-danger btn-block mb-2" data-mdb-toggle="modal" data-mdb-target="#acc-delete-modal">Delete Account</button>
+		</div>
+	</div>
+</div>
+
+<!--- MODAL --->
+
+<div class="modal fade" id="acc-delete-modal" tabindex="-1" style="display: none;">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content text-center">
+      <div class="modal-header bg-danger text-white d-flex justify-content-center">
+        <h5 class="modal-title">Are you sure?</h5>
+      </div>
+      <div class="modal-body">
+        <i class="fas fa-times fa-3x text-danger"></i>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button data-mdb-dismiss="modal" type="button" class="btn btn-danger ripple-surface" style="min-width: 65px;">No</button>
+        <form method="POST" action="{{ host }}/delete/">
+        	{% csrf_token %}
+        	<button type="submit" class="btn btn-outline-danger">Yes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

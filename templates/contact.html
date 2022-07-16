@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Contact Me - TZ Liker{% endblock %}
+{% block contact %}active{% endblock %}
+{% block body %}
+<div align="center">
+	<h1>Contact Me</h1>
+	<div style="max-width: 600px">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-outline mb-4">
+		    <input required="" type="text" id="fullname" name="fullname" class="form-control">
+		    <label class="form-label" for="fullname">Your Name</label>
+		  </div>
+			<div class="form-outline mb-4">
+		    <input required="" type="email" id="email" name="email" class="form-control">
+		    <label class="form-label" for="email">Your Email address</label>
+		  </div>
+			<div class="form-outline mb-4">
+		    <input required="" type="text" id="subject" name="subject" class="form-control">
+		    <label class="form-label" for="subject">Subject</label>
+		  </div>
+			<div class="form-outline mb-4">
+		    <textarea rows="4" required="" type="text" id="message" name="message" class="form-control"></textarea>
+		    <label class="form-label" for="message">Message</label>
+		  </div>
+		  <button class="btn btn-block btn-primary">Submit</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
