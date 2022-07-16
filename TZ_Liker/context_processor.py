@@ -1,7 +1,12 @@
 from Home.models import Site_Info
+from django.conf import settings
 
 def global_context(request):
-	host=request.scheme+'://'+request.get_host()
+	if settings.DEBUG:
+		prot='http'
+	else:
+		prot='https'
+	host=prot+'://'+request.get_host()
 	try:
 		theme=request.COOKIES['theme']
 	except:
