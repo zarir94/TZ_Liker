@@ -152,3 +152,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'Home.Account'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://tz-liker.herokuapp.com",
+    'http://tz-liker.herokuapp.com',
+]
