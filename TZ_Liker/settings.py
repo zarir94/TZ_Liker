@@ -155,3 +155,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://tz-liker.herokuapp.com",
     'http://tz-liker.herokuapp.com',
 ]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
