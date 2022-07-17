@@ -20,5 +20,6 @@ urlpatterns = [
     path('settings/', settings),
     path('dashboard/auto-like/', auto_like),
     path('dashboard/auto-follow/', auto_follow),
+    path('googled3920a951d8fb79c.html', google_verify),
     path('favicon.ico', RedirectView.as_view(url='https://technicalzarir.blogspot.com/favicon.ico')),
 ]

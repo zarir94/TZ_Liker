@@ -560,3 +560,6 @@ def switch_theme(request):
 		response.set_cookie('theme','light')
 	return response
 
+def google_verify(request):
+	from django.conf import settings
+	return HttpResponse('google-site-verification: googled3920a951d8fb79c.html')
