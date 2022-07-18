@@ -413,6 +413,7 @@ def auto_follow(request):
 				return redirect(f'/dashboard/auto-follow/?id={fb_id}')
 
 		messages.info(request, 'The Followers amount depend on how many users registered on this site. So share this site to everyone and help to add more users here. Remember, the more user registers here, the more reactions you will get.\n<b>Note:</b> Users must have set their facebook cookies.')
+		messages.info(request, 'If you are not receiving likes then you must forget to make your account public. <a class="alert-link" href="/tutorial#makepublicaccount">Click here</a> to make your account public.')
 
 		return render(request, 'auto_follow_submit.html', context={'min':minimum, 'max':maximum, 'minutes':minutes, 'seconds':seconds, 'cooldown':cooldown, 'time_remaining':time_remaining, 'available_accounts':len(available_accounts), 'likable_accounts':len(followable_accounts), 'liked_accounts':len(followed_accounts)})
 	else:
@@ -561,5 +562,4 @@ def switch_theme(request):
 	return response
 
 def google_verify(request):
-	from django.conf import settings
 	return HttpResponse('google-site-verification: googled3920a951d8fb79c.html')
