@@ -60,7 +60,7 @@ input[type=number] {
 #intro h1 {
     font-size: 3.5rem;
 }
-body:not(body.darkmode){
+body:not(body.darkmode) {
     background-color: #f2f2f2;
 }
 #whyuse ul {
@@ -71,13 +71,13 @@ body:not(body.darkmode){
     max-width: 960px;
 }
 #whyuse ul li {
-  width: 30%;
-  border-radius: 17px;
-  margin: 0 30px 30px 0;
+    width: 30%;
+    border-radius: 17px;
+    margin: 0 30px 30px 0;
 }
 #whyuse ul div {
-  border-radius: 17px;
-  height: 100%;
+    border-radius: 17px;
+    height: 100%;
 }
 #sitestatus ul {
     display: flex;
@@ -87,13 +87,13 @@ body:not(body.darkmode){
     max-width: 960px;
 }
 #sitestatus ul li {
-  width: 30%;
-  border-radius: 17px;
-  margin: 0 30px 30px 0;
+    width: 30%;
+    border-radius: 17px;
+    margin: 0 30px 30px 0;
 }
 #sitestatus ul div {
-  border-radius: 17px;
-  height: 100%;
+    border-radius: 17px;
+    height: 100%;
 }
 @media only screen and (max-width: 640px) {
     #whyuse ul {
@@ -126,4 +126,23 @@ body:not(body.darkmode){
         margin-right: auto!important;
         margin-left: auto!important;
     }
+}
+#tutorial img {
+    width: 190px;
+    height: 400px;
+}
+.lightbox-gallery .lightbox-gallery-arrow-left button::before {
+    content: ""!important;
+}
+.lightbox-gallery .lightbox-gallery-arrow-right button::before {
+    content: ""!important;
+}
+.lightbox-gallery .lightbox-gallery-toolbar button.lightbox-gallery-fullscreen-btn::before {
+    content: ""!important;
+}
+.lightbox-gallery .lightbox-gallery-toolbar button.lightbox-gallery-zoom-btn::before {
+    content: ""!important;
+}
+.lightbox-gallery .lightbox-gallery-toolbar button.lightbox-gallery-close-btn::before {
+    content: "";
 }
