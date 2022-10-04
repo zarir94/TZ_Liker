@@ -154,6 +154,7 @@ AUTH_USER_MODEL = 'Home.Account'
 CSRF_TRUSTED_ORIGINS = [
     "https://tz-liker.herokuapp.com",
     'http://tz-liker.herokuapp.com',
+    'https://tz-liker.onrender.com',
 ]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
