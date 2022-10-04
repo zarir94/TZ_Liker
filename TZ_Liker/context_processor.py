@@ -1,12 +1,11 @@
 from django.conf import settings
 
 def global_context(request):
-	# if settings.DEBUG:
-	# 	prot='http'
-	# else:
-	# 	prot='https'
-	# host=prot+'://'+request.get_host()
-	host="/"
+	if settings.DEBUG:
+		prot='http'
+	else:
+		prot='https'
+	host=prot+'://'+request.get_host()
 	try:
 		theme=request.COOKIES['theme']
 	except:
