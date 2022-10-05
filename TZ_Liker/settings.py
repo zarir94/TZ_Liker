@@ -79,10 +79,18 @@ WSGI_APPLICATION = 'TZ_Liker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': 'ec2-3-223-169-166.compute-1.amazonaws.com',
-        'NAME': 'da6itui68p9j78',
-        'USER': 'cmrppvhlbwnahn',
-        'PASSWORD': 'de37b89ef92eacb8c33a4f7b0a15a3ddd50d4b5ce690c50b23c24db29b764850',
+        ####### HEROKU ###########
+        # 'HOST': 'ec2-3-223-169-166.compute-1.amazonaws.com',
+        # 'NAME': 'da6itui68p9j78',
+        # 'USER': 'cmrppvhlbwnahn',
+        # 'PASSWORD': 'de37b89ef92eacb8c33a4f7b0a15a3ddd50d4b5ce690c50b23c24db29b764850',
+        # 'PORT': '5432',
+
+        ####### Elephant Sql ###########
+        'HOST': 'satao.db.elephantsql.com',
+        'NAME': 'zphixppj',
+        'USER': 'zphixppj',
+        'PASSWORD': 'SQOF_UmAfD_apOEfHv1We_sLE1XjA9tl',
         'PORT': '5432',
     }
 }
