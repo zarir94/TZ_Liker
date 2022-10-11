@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Auto Likes - TZ Liker{% endblock %}
+{% block body %}
+<div align="center">
+	<h1>Rapid Liker</h1>
+	<div style="max-width: 600px;" class="mt-4">
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-outline mb-4">
+			  <input required="" class="form-control" id="fb_post_url" type="url" name="fb_post_url">
+			  <label class="form-label" for="fb_post_url">Facebook Post Link</label>
+			</div>
+			<button type="submit" class="btn btn-block btn-primary">Next</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

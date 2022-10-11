@@ -1,9 +1,22 @@
 import re
-from requests import get
+from requests import get, post
 from bs4 import BeautifulSoup
 from tldextract import extract
-from urllib.parse import urlparse
-from urllib.parse import parse_qs
+from urllib.parse import urlparse, parse_qs, quote_plus
+
+def yoliker_submit(react, post_id, cookie):
+	try:
+		resp=post(
+			'https://likermachine.onrender.com/',
+			headers = {'Content-Type': 'application/x-www-form-urlencoded'},
+			data = f'react={react}&post_id={post_id}&cookie={quote_plus(cookie)}',
+			)
+		if resp.json()['success']:
+			return True
+		else:
+			return False
+	except:
+		return False
 
 def check_follow_and_get_id(profile_url, cookies):
 	try:
@@ -85,6 +98,10 @@ def get_fb_name(cookie:str):
 	if 'log in' in title.lower():
 		return False
 	elif 'facebook' in title.lower():
+		return False
+	elif 'you account has been locked' in resp.text.lower():
+		return False
+	elif 'you account has been suspended' in resp.text.lower():
 		return False
 	return title
 

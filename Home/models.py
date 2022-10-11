@@ -36,7 +36,9 @@ class Account(AbstractBaseUser):
 	is_verified=models.BooleanField(default=False)
 	token=models.TextField(null=True)
 	used_ids=models.TextField(default='')
-	last_submit=models.DateTimeField(default=datetime(2022, 7, 11, 19, 14, 22, tzinfo=pytz.UTC))
+	last_submit_rapid=models.DateTimeField(default=datetime(2022, 7, 11, 19, 13, 22, tzinfo=pytz.UTC))
+	last_submit_like=models.DateTimeField(default=datetime(2022, 7, 11, 19, 14, 22, tzinfo=pytz.UTC))
+	last_submit_follow=models.DateTimeField(default=datetime(2022, 7, 11, 19, 14, 22, tzinfo=pytz.UTC))
 
 	date_joined=models.DateTimeField(auto_now_add=True)
 	last_login=models.DateTimeField(auto_now=True)
@@ -51,7 +53,7 @@ class Account(AbstractBaseUser):
 	objects=AccountManager()
 
 	def __str__(self):
-		return self.email
+		return f'{self.email} - {self.username}'
 
 	def has_perm(self, perm, obj=None):
 		return self.is_admin

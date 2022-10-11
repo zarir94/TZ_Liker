@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     {% if theme == 'dark' %}
-    <link rel="stylesheet" type="text/css" href="{{ host }}/files/css/mdb.dark.min.css">
+    <link rel="stylesheet" type="text/css" href="/files/css/mdb.dark.min.css">
     {% else %}
-    <link rel="stylesheet" type="text/css" href="{{ host }}/files/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css" href="/files/css/mdb.min.css">
     {% endif %}
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ host }}/files/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/files/css/style.css">
     <link href='https://technicalzarir.blogspot.com/favicon.ico' rel='icon' type='image/x-icon'/>
   </head>
   <body{% if theme == 'dark' %} class="darkmode"{% endif %}>
@@ -19,7 +19,7 @@
 		    <button style="padding-left: 5px;margin-right: 5px;width: 35px;height: 28px;" class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 		      <i id="menu_icon" class="fas fa-bars"></i>
 		    </button>
-		    <a class="navbar-brand" href="{{ host }}">TZ Liker<span style="font-size: 10px;color: white !important;" class="badge text-muted ms-1 mt-1 bg-primary">v2.3</span></a>
+		    <a class="navbar-brand" href="/">TZ Liker<span style="font-size: 10px;color: white !important;" class="badge text-muted ms-1 mt-1 bg-primary">v2.5</span></a>
 		    <button style="font-size: 18px;" type="button" onclick="window.location.href=`/switchtheme?next=${window.location.href}`" class="btn btn-dark btn-floating ms-auto">
 		    	{% if theme == 'dark' %}
 				  	<i class="fas fa-sun"></i>
@@ -29,26 +29,26 @@
 				</button>
 		    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		      <div class="ms-auto navbar-nav">
-		        <a class="nav-link {% block home %}{% endblock %}" href="{{ host }}">Home</a>
-		        <a class="nav-link {% block tutorial %}{% endblock %}" href="{{ host }}/tutorial">Tutorial</a>
-		        <!-- <a class="nav-link {% block about %}{% endblock %}" href="{{ host }}/about">About Me</a> -->
-		        <a class="nav-link {% block contact %}{% endblock %}" href="{{ host }}/contact">Contact Me</a>
+		        <a class="nav-link {% block home %}{% endblock %}" href="/">Home</a>
+		        <a class="nav-link {% block tutorial %}{% endblock %}" href="/tutorial">Tutorial</a>
+		        <!-- <a class="nav-link {% block about %}{% endblock %}" href="/about">About Me</a> -->
+		        <a class="nav-link {% block contact %}{% endblock %}" href="/contact">Contact Me</a>
 		        {% if request.user.is_anonymous %}
-		        <a class="nav-link {% block login %}{% endblock %}" href="{{ host }}/login">Login</a>
-		        <a class="nav-link {% block register %}{% endblock %}" href="{{ host }}/register">Register</a>		        	
+		        <a class="nav-link {% block login %}{% endblock %}" href="/login">Login</a>
+		        <a class="nav-link {% block register %}{% endblock %}" href="/register">Register</a>		        	
 		        {% endif %}
 		        {% if not request.user.is_anonymous %}
-		        <a class="nav-link {% block dashboard %}{% endblock %}" href="{{ host }}/dashboard">Dashboard</a>
+		        <a class="nav-link {% block dashboard %}{% endblock %}" href="/dashboard">Dashboard</a>
 				    <li class="nav-item dropdown">
 				      <a class="nav-link dropdown-toggle {% block account %}{% endblock %}" id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
 				        Account
 				      </a>
 				      <ul style="min-width: 6rem;" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				        <li>
-				          <a class="dropdown-item {% block settings %}{% endblock %}" href="{{ host }}/settings">Settings</a>
+				          <a class="dropdown-item {% block settings %}{% endblock %}" href="/settings">Settings</a>
 				        </li>
 				        <li>
-				          <a class="dropdown-item" href="{{ host }}/logout">Logout</a>
+				          <a class="dropdown-item" href="/logout">Logout</a>
 				        </li>
 				      </ul>
 				    </li>
@@ -104,8 +104,8 @@
 
 
   	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  	<script type="text/javascript" src="{{ host }}/files/js/mdb.min.js"></script>
-  	<script type="text/javascript" src="{{ host }}/files/js/main.js"></script>
+  	<script type="text/javascript" src="/files/js/mdb.min.js"></script>
+  	<script type="text/javascript" src="/files/js/main.js"></script>
   	{% block script %}{% endblock %}
 
 	</footer>

@@ -1,6 +1,5 @@
 from django.views.generic.base import RedirectView
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from .views import *
 
 urlpatterns = [
@@ -18,6 +17,7 @@ urlpatterns = [
     path('tutorial/', tutorial),
     path('dashboard/', dashboard),
     path('settings/', settings),
+    path('dashboard/rapid-like/', rapid_like),
     path('dashboard/auto-like/', auto_like),
     path('dashboard/auto-follow/', auto_follow),
     path('googled3920a951d8fb79c.html', google_verify),

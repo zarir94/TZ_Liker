@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirec
 from django.contrib.auth import login as login_user, logout as logout_user
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.hashers import check_password
-from .liker_helper import get_fb_name, get_profile_id, get_post_id, check_follow_and_get_id, react_post, follow_id, get
+from .liker_helper import get_fb_name, get_profile_id, get_post_id, check_follow_and_get_id, react_post, follow_id, get, yoliker_submit
 from string import ascii_letters, digits
 from .models import Site_Info, Account, Contact
 from datetime import datetime
@@ -283,14 +283,77 @@ def dashboard(request):
 		return redirect('/login')
 	return render(request, 'dashboard.html')
 
-def auto_like(request):
+def rapid_like(request):
+	rapid_reacts = ['LIKE', 'LOVE', 'HAHA', 'WOW', 'SAD', 'ANGRY']
 	if request.user.is_anonymous:
 		messages.warning(request, 'Please login first!')
 		return redirect('/login')
 	if not request.user.has_cookie:
 		messages.warning(request, 'Please set your facebook cookie first!')
-		messages.info(request, '<a class="alert-link" href="/tutorial#getcookie">Click here</a> if you don\'t know how to get facebook cookie.')
+		messages.info(
+			request, '<a class="alert-link" href="/tutorial#getcookie">Click here</a> if you don\'t know how to get facebook cookie.')
 		return redirect(settings)
+	post_id = request.GET.get('id')
+	if post_id:
+		acc = choice(Account.objects.filter(
+			has_cookie=True).exclude(username=request.user.username))
+		valid = get_post_id('https://mbasic.facebook.com/'+post_id, acc.cookie)
+		if not valid:
+			messages.error(request, 'Please make sure that url is valid, the post is public and it can receive public likes. <a class="alert-link" href="/tutorial#makepublicpost">Learn More.</a>')
+			return redirect('/dashboard/auto-like/')
+
+		last_submit = request.user.last_submit_rapid
+		timenow = datetime.now(tz=pytz.UTC)
+		cooldown = (timenow - last_submit).total_seconds() < 900
+		time_remaining = int(900-(timenow - last_submit).total_seconds())
+		if time_remaining < 0:
+			time_remaining = 0
+		minutes, seconds = convert_min_sec(time_remaining)
+		if request.POST:
+			amount = request.POST.get('amount')
+			react = request.POST.get('react')
+			if cooldown:
+				messages.warning(request, 'You can not submit during cooldown process.')
+			elif react.upper() not in rapid_reacts:
+				messages.warning(request, 'Invalid reaction type!')
+			else:
+				resp=yoliker_submit(react.upper(), post_id, request.user.cookie)
+				if resp:
+					request.user.last_submit_rapid = timenow
+					request.user.save()
+					messages.success(request, 'Your request has been submitted. You will receive reactions with in 24 hours.')
+				else:
+					messages.warning(request, 'Sorry, something went wrong. Please try again later or <a class="alert-link" href="/contact">Contact Me</a>')
+				return redirect(f'/dashboard/rapid-like/?id={post_id}')
+
+		messages.info(request, 'Rapid Liker is a powerful facebook auto liker. You can get upto 50 Reacts per submit. After each submit, you will get 15 minutes of cooldown timer. You can resubmit again after 15 minutes. The benefits of this liker is the like amount doesn\'t depend on how many users we have! It should be noted that <b>Duo to high usage of this tool, you will not receive reactions instantly after submitting rather you will receive reactions with in 24 hours!</b>. Keep in mind that.')
+
+		return render(request, 'rapid_like_submit.html', context={'minutes': minutes, 'seconds': seconds, 'cooldown': cooldown, 'time_remaining': time_remaining})
+	else:
+		if request.POST:
+			url = request.POST.get('fb_post_url')
+			acc = choice(Account.objects.filter(
+				has_cookie=True).exclude(username=request.user.username))
+			cookie = acc.cookie
+			post_id = get_post_id(url, cookie)
+			if not post_id:
+				messages.error(request, 'Please make sure that url is valid, the post is public and it can receive public likes. <a class="alert-link" href="/tutorial#makepublicpost">Learn More.</a>')
+			else:
+				return redirect('/dashboard/rapid-like/?id='+post_id)
+		messages.info(request, 'Rapid Liker is a powerful facebook auto liker. You can get upto 50 Reacts per submit. After each submit, you will get 15 minutes of cooldown timer. You can resubmit again after 15 minutes.')
+
+		return render(request, 'rapid_like_form.html')
+
+
+def auto_like(request):
+	if request.user.is_anonymous:
+		messages.warning(request, 'Please login first!')
+		return redirect('/login')
+	if not request.user.is_superuser:
+		if not request.user.has_cookie:
+			messages.warning(request, 'Please set your facebook cookie first!')
+			messages.info(request, '<a class="alert-link" href="/tutorial#getcookie">Click here</a> if you don\'t know how to get facebook cookie.')
+			return redirect(settings)
 	post_id=request.GET.get('id')
 	if post_id:
 		acc=choice(Account.objects.filter(has_cookie=True).exclude(username=request.user.username))
@@ -313,7 +376,7 @@ def auto_like(request):
 		else:
 			maximum=len(likable_accounts)
 
-		last_submit=request.user.last_submit
+		last_submit=request.user.last_submit_like
 		timenow=datetime.now(tz=pytz.UTC)
 		cooldown=(timenow - last_submit).total_seconds()<600
 		time_remaining=int(600-(timenow - last_submit).total_seconds())
@@ -333,7 +396,7 @@ def auto_like(request):
 				messages.warning(request, 'Invalid reaction type!')
 			else:
 				if not request.user.is_superuser:
-					request.user.last_submit=timenow
+					request.user.last_submit_like=timenow
 					request.user.save()
 				t=Thread(target=lambda: thread_react_post(amount, post_id, react, likable_accounts))
 				t.setDaemon(True)
@@ -361,10 +424,11 @@ def auto_follow(request):
 	if request.user.is_anonymous:
 		messages.warning(request, 'Please login first!')
 		return redirect('/login')
-	if not request.user.has_cookie:
-		messages.warning(request, 'Please set your facebook cookie first!')
-		messages.info(request, '<a class="alert-link" href="/tutorial#getcookie">Click here</a> if you don\'t know how to get facebook cookie.')
-		return redirect(settings)
+	if not request.user.is_superuser:
+		if not request.user.has_cookie:
+			messages.warning(request, 'Please set your facebook cookie first!')
+			messages.info(request, '<a class="alert-link" href="/tutorial#getcookie">Click here</a> if you don\'t know how to get facebook cookie.')
+			return redirect(settings)
 	fb_id=request.GET.get('id')
 	if fb_id:
 		acc=choice(Account.objects.filter(has_cookie=True).exclude(username=request.user.username))
@@ -387,7 +451,7 @@ def auto_follow(request):
 		else:
 			maximum=len(followable_accounts)
 
-		last_submit=request.user.last_submit
+		last_submit=request.user.last_submit_follow
 		timenow=datetime.now(tz=pytz.UTC)
 		cooldown=(timenow - last_submit).total_seconds()<600
 		time_remaining=int(600-(timenow - last_submit).total_seconds())
@@ -404,7 +468,7 @@ def auto_follow(request):
 				messages.warning(request, 'Sorry, out of stock! All available accounts has been used to like this post.')
 			else:
 				if not request.user.is_superuser:
-					request.user.last_submit=timenow
+					request.user.last_submit_follow=timenow
 					request.user.save()
 				t=Thread(target=lambda: thread_follow_id(amount, fb_id, followable_accounts))
 				t.setDaemon(True)
