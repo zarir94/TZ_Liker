@@ -2,11 +2,12 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirec
 from django.contrib.auth import login as login_user, logout as logout_user
 from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.hashers import check_password
-from .liker_helper import get_fb_name, get_profile_id, get_post_id, check_follow_and_get_id, react_post, follow_id, get, yoliker_submit
+from .liker_helper import get_fb_name, get_profile_id, get_post_id, check_follow_and_get_id, react_post, follow_id, get, yoliker_submit, get_post_react_amount
 from string import ascii_letters, digits
 from .models import Site_Info, Account, Contact
 from datetime import datetime
 import pytz
+from time import sleep
 from email.utils import formataddr
 from email.message import EmailMessage
 import smtplib
@@ -15,6 +16,20 @@ from random import choices, choice
 from threading import Thread
 
 react_dict={'like':0, 'love':1, 'care':2, 'haha':3, 'wow':4, 'sad':5, 'angry':6}
+
+thread_dict={}
+
+def add_auto_submit_thread(react, post_id, user, amount):
+	def func(react, post_id, user, amount):
+		while get_post_react_amount(post_id, choice(Account.objects.filter(has_cookie=True).exclude(username=user.username)).cookie)<amount:
+			if user.has_cookie:
+				yoliker_submit(react.upper(), post_id, user.cookie)
+			sleep(60*20)
+
+	thread_dict[post_id]=Thread(target=func, args=(react, post_id, user, amount))
+	thread_dict[post_id].setDaemon(True)
+	thread_dict[post_id].start()
+	return True
 
 def send_password_change_email(receiverName, receiverEmail, link):
 	s=smtplib.SMTP(host='smtp-mail.outlook.com', port=587)
@@ -299,8 +314,13 @@ def rapid_like(request):
 			has_cookie=True).exclude(username=request.user.username))
 		valid = get_post_id('https://mbasic.facebook.com/'+post_id, acc.cookie)
 		if not valid:
+			print(acc.username)
 			messages.error(request, 'Please make sure that url is valid, the post is public and it can receive public likes. <a class="alert-link" href="/tutorial#makepublicpost">Learn More.</a>')
-			return redirect('/dashboard/auto-like/')
+			return redirect('/dashboard/rapid-like/')
+		if request.user.is_superuser:
+			post_react=get_post_react_amount(post_id, acc.cookie)
+		else:
+			post_react=None
 
 		last_submit = request.user.last_submit_rapid
 		timenow = datetime.now(tz=pytz.UTC)
@@ -310,25 +330,31 @@ def rapid_like(request):
 			time_remaining = 0
 		minutes, seconds = convert_min_sec(time_remaining)
 		if request.POST:
-			amount = request.POST.get('amount')
+			amount = request.POST.get('submit_until')
 			react = request.POST.get('react')
 			if cooldown:
 				messages.warning(request, 'You can not submit during cooldown process.')
 			elif react.upper() not in rapid_reacts:
 				messages.warning(request, 'Invalid reaction type!')
 			else:
-				resp=yoliker_submit(react.upper(), post_id, request.user.cookie)
-				if resp:
+				if request.user.is_superuser and amount:
+					add_auto_submit_thread(react.upper(), post_id, request.user, int(amount))
 					request.user.last_submit_rapid = timenow
 					request.user.save()
 					messages.success(request, 'Your request has been submitted. You will receive reactions with in 24 hours.')
 				else:
-					messages.warning(request, 'Sorry, something went wrong. Please try again later or <a class="alert-link" href="/contact">Contact Me</a>')
+					resp=yoliker_submit(react.upper(), post_id, request.user.cookie)
+					if resp:
+						request.user.last_submit_rapid = timenow
+						request.user.save()
+						messages.success(request, 'Your request has been submitted. You will receive reactions with in 24 hours.')
+					else:
+						messages.warning(request, 'Sorry, something went wrong. Please try again later or <a class="alert-link" href="/contact">Contact Me</a>')
 				return redirect(f'/dashboard/rapid-like/?id={post_id}')
 
 		messages.info(request, 'Rapid Liker is a powerful facebook auto liker. You can get upto 50 Reacts per submit. After each submit, you will get 15 minutes of cooldown timer. You can resubmit again after 15 minutes. The benefits of this liker is the like amount doesn\'t depend on how many users we have! It should be noted that <b>Duo to high usage of this tool, you will not receive reactions instantly after submitting rather you will receive reactions with in 24 hours!</b>. Keep in mind that.')
 
-		return render(request, 'rapid_like_submit.html', context={'minutes': minutes, 'seconds': seconds, 'cooldown': cooldown, 'time_remaining': time_remaining})
+		return render(request, 'rapid_like_submit.html', context={'minutes': minutes, 'seconds': seconds, 'cooldown': cooldown, 'time_remaining': time_remaining, 'thread_amount':len(list(thread_dict)), 'post_react':post_react})
 	else:
 		if request.POST:
 			url = request.POST.get('fb_post_url')
@@ -627,3 +653,6 @@ def switch_theme(request):
 
 def google_verify(request):
 	return HttpResponse('google-site-verification: googled3920a951d8fb79c.html')
+
+def inspector_apk(request):
+	return redirect('/files/Web Editor Edit any website 5.0.3.apk')

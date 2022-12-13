@@ -1,9 +1,10 @@
+from Home.liker_helper import convert_to_dict, get_post_react_amount
 from requests import get, post
-from Home.liker_helper import convert_to_dict, get_fb_name
-from bs4 import BeautifulSoup
 
-cookie = "datr=KoosY2liq1tgGfXRfcXjJYPf; sb=KoosYxFqwOdPE45pa34whxiQ; m_pixel_ratio=2; locale=en_US; x-referer=eyJyIjoiL2NoZWNrcG9pbnQvMTUwMTA5MjgyMzUyNTI4Mi9sb2dvdXQvP25leHQ9aHR0cHMlM0ElMkYlMkZtLmZhY2Vib29rLmNvbSUyRmJvb2ttYXJrcyUyRiUzRnBhaXB2JTNEMCUyNmVhdiUzREFmWjQxMXluU1JxR3cwLWFpblNwMG5PaVFTazF1MVBNTlFPalhNNU5rV0dkY3lPaDg4cFVrd25mbmlIVkpFaFhNUjQmcGFpcHY9MCZlYXY9QWZiWG9VYk56T2JIUTVhaGtIdTBCcWxjMk5pUjhYM2hrNjFMWmdua1JIR2NDTWVkYWxZMHpIdmpqbjJlamR0NE83SSIsImgiOiIvY2hlY2twb2ludC8xNTAxMDkyODIzNTI1MjgyL2xvZ291dC8%2FbmV4dD1odHRwcyUzQSUyRiUyRm0uZmFjZWJvb2suY29tJTJGYm9va21hcmtzJTJGJTNGcGFpcHYlM0QwJTI2ZWF2JTNEQWZaNDExeW5TUnFHdzAtYWluU3Awbk9pUVNrMXUxUE1OUU9qWE01TmtXR2RjeU9oODhwVWt3bmZuaUhWSkVoWE1SNCZwYWlwdj0wJmVhdj1BZmJYb1ViTnpPYkhRNWFoa0h1MEJxbGMyTmlSOFgzaGs2MUxaZ25rUkhHY0NNZWRhbFkwekh2ampuMmVqZHQ0TzdJIiwicyI6Im0ifQ%3D%3D; fr=02UFdtCuENnDlUQ0A.AWUn9rjrMU64QXabaLP9zG9xfek.BjLIoq.zT.AAA.0.0.BjRSeW.AWUKEHnFqSU; c_user=100086704476291; xs=38%3AnelZsj6SJhuy7g%3A2%3A1665476502%3A-1%3A-1; m_page_voice=100086704476291; wd=360x737"
+cookie = "datr=R-eXY5YPgGPITMVe1Bau8azj; sb=R-eXY-HyadqDBT-V7KvqpcKF; m_pixel_ratio=1.84375; fr=0CtUwBpNrLSjRjvvP.AWVZpPD2NNnIIXYEEySwOJ1ZPpo.Bjl-dH.Q7.AAA.0.0.Bjl-dZ.AWW2ev3P7-4; c_user=100075924800901; xs=45%3Apj6SIZJz6kFWxw%3A2%3A1670899546%3A-1%3A5149; m_page_voice=100075924800901; wd=391x752; locale=en_GB; fbl_cs=AhC8FccwkuKSmD6k4l3omzFUGGdFY3lMOEtzb2N2N05JNmtGOD1LZndrcQ; fbl_ci=538158021535757; vpd=v1%3B752x391x1.84375; fbl_st=101127008%3BT%3A27848326"
 
-resp=get('https://mbasic.facebook.com/me', cookies=convert_to_dict(cookie))
-open('index.html', 'w', encoding='utf-8').write(resp.text)
+print(get_post_react_amount('115570984317061', cookie))
 
+# https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?ft_ent_identifier=pfbid032QyGRFrbCFJzo1duTW5WL7BJ6wy43iHCFKauvkfR16zU5k9GsF5mDxWJ9toUhefml&limit=10&total_count=4146&paipv=0&eav=AfbiYKNJXzFzL85S1Mh2ZvKqhRiwkbv4FgqKY4SeWixiNpaLCU1yN-en9XWOQ35kjY0
+
+# https://mbasic.facebook.com/ufi/reaction/profile/browser/fetch/?ft_ent_identifier=115570774317082&limit=10&total_count=4146&paipv=0&eav=AfaSDPtEWgKcnbtIbtBYJzuffQnUonXZAigZGLmQO4uauFa7vaScqj6Jqbq8rdchocY

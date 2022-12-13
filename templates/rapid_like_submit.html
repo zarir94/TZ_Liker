@@ -12,14 +12,22 @@
 		<form method="POST">
 			{% csrf_token %}
 			<select name="react" id="react" class="select">
-        <option value="like">Like</option>
-        <option value="love">Love</option>
-        <option value="haha">Haha</option>
-        <option value="wow">Wow</option>
-        <option value="sad">Sad</option>
-        <option value="angry">Angry</option>
-      </select>
-      <label class="form-label select-label" for="react">Choose Reactions</label>
+				<option value="like">Like</option>
+				<option value="love">Love</option>
+				<option value="haha">Haha</option>
+				<option value="wow">Wow</option>
+				<option value="sad">Sad</option>
+				<option value="angry">Angry</option>
+			</select>
+			<label class="form-label select-label" for="react">Choose Reactions</label>
+			{% if request.user.is_superuser %}
+			<div class="form-outline my-4">
+			  <input class="form-control" id="submit_until" type="number" min="10" max="1000" name="submit_until">
+			  <label class="form-label" for="submit_until">Auto Submit Until ~</label>
+			</div>
+			<p>{{ thread_amount }} Thread Running</p>
+			<p>{{ post_react }} React found on this post</p>
+			{% endif %}
 			<button type="submit" id="submit" class="btn btn-block btn-primary mt-4">Submit</button>
 		</form>
 	</div>

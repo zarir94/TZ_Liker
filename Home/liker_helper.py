@@ -4,6 +4,12 @@ from bs4 import BeautifulSoup
 from tldextract import extract
 from urllib.parse import urlparse, parse_qs, quote_plus
 
+def digit_format(text):
+	text=text.upper()
+	number_list=['K', 'M', 'B', 'T', 'P']
+	for i in number_list:
+		return (int(float(text.replace(i,'')) * (1000 ** (number_list.index(i) + 1)))) if i in text else text
+
 def yoliker_submit(react, post_id, cookie):
 	try:
 		resp=post(
@@ -30,6 +36,18 @@ def check_follow_and_get_id(profile_url, cookies):
 		fb_id=match[0].split('=')[1]
 		return fb_id
 	except: 
+		return False
+
+def get_post_react_amount(post_id:str, cookies:str):
+	try:
+		resp=get(f'https://mbasic.facebook.com/ufi/reaction/profile/browser/?ft_ent_identifier={post_id}', cookies=convert_to_dict(cookies))
+		html=resp.text
+		soap=BeautifulSoup(html, 'html.parser')
+		elem=soap.find('div', {'id':'root'}).find('table').find('tbody').find('div').find('div').find('a')
+		match=re.findall(r'total_count=\d+', elem.get('href'))
+		return int(match[0].split('=')[1])
+	except Exception as e:
+		print(e)
 		return False
 
 def get_profile_id(profile_url:str, cookies:str):

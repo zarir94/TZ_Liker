@@ -26,16 +26,16 @@ class AccountManager(BaseUserManager):
 		return user
 
 class Account(AbstractBaseUser):
-	full_name=models.CharField(max_length=200, null=True)
+	full_name=models.CharField(max_length=200, null=True, blank=True)
 	username=models.CharField(max_length=200, unique=True)
 	email=models.CharField(max_length=200, unique=True)
-	password=models.CharField(max_length=200, null=True)
-	cookie=models.TextField(null=True)
-	profile_id=models.CharField(max_length=200, null=True, unique=True)
+	password=models.CharField(max_length=200, null=True, blank=True)
+	cookie=models.TextField(null=True, blank=True)
+	profile_id=models.CharField(max_length=200, null=True, unique=True, blank=True)
 	has_cookie=models.BooleanField(default=False)
 	is_verified=models.BooleanField(default=False)
-	token=models.TextField(null=True)
-	used_ids=models.TextField(default='')
+	token=models.TextField(null=True, blank=True)
+	used_ids=models.TextField(default='', blank=True)
 	last_submit_rapid=models.DateTimeField(default=datetime(2022, 7, 11, 19, 13, 22, tzinfo=pytz.UTC))
 	last_submit_like=models.DateTimeField(default=datetime(2022, 7, 11, 19, 14, 22, tzinfo=pytz.UTC))
 	last_submit_follow=models.DateTimeField(default=datetime(2022, 7, 11, 19, 14, 22, tzinfo=pytz.UTC))

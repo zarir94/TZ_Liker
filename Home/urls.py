@@ -15,6 +15,7 @@ urlpatterns = [
     path('about/', about),
     path('contact/', contact),
     path('tutorial/', tutorial),
+    path('inspector-apk/', inspector_apk),
     path('dashboard/', dashboard),
     path('settings/', settings),
     path('dashboard/rapid-like/', rapid_like),
