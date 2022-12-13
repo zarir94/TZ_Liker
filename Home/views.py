@@ -321,7 +321,7 @@ def rapid_like(request):
 			post_react=get_post_react_amount(post_id, acc.cookie)
 		else:
 			post_react=None
-			
+		
 		last_submit = request.user.last_submit_rapid
 		timenow = datetime.now(tz=pytz.UTC)
 		cooldown = (timenow - last_submit).total_seconds() < 900
