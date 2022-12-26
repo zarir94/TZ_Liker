@@ -25,6 +25,10 @@ def add_auto_submit_thread(react, post_id, user, amount):
 			if user.has_cookie:
 				yoliker_submit(react.upper(), post_id, user.cookie)
 			sleep(60*20)
+		try:
+			thread_dict.pop(post_id)
+		except:
+			pass
 
 	thread_dict[post_id]=Thread(target=func, args=(react, post_id, user, amount))
 	thread_dict[post_id].setDaemon(True)
@@ -75,8 +79,8 @@ def send_contact_email(userName, userEmail, userSubject, userMessage):
 class Email_Validator():
 	def __init__(self, email:str):
 		self.email=email
-		self.resp1=get('https://nobounce.herokuapp.com/isdelivrable/'+email)
-		self.resp2=get('https://nobounce.herokuapp.com/istemp/'+email)
+		self.resp1=get('https://nobounce.onrender.com/isdelivrable/'+email)
+		self.resp2=get('https://nobounce.onrender.com/istemp/'+email)
 		self.temp_mail=self.resp2.json()
 		self.valid_mail=True if self.resp1.json()['Delivrable']=='True' else False
 	@property

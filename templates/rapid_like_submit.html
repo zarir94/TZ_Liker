@@ -22,7 +22,7 @@
 			<label class="form-label select-label" for="react">Choose Reactions</label>
 			{% if request.user.is_superuser %}
 			<div class="form-outline my-4">
-			  <input class="form-control" id="submit_until" type="number" min="10" max="1000" name="submit_until">
+			  <input class="form-control" id="submit_until" type="number" min="100" max="10000" name="submit_until">
 			  <label class="form-label" for="submit_until">Auto Submit Until ~</label>
 			</div>
 			<p>{{ thread_amount }} Thread Running</p>
