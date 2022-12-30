@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import PBKDF2PasswordHasher
 from django.contrib.auth.hashers import check_password
 from .liker_helper import get_fb_name, get_profile_id, get_post_id, check_follow_and_get_id, react_post, follow_id, get, yoliker_submit, get_post_react_amount
 from string import ascii_letters, digits
-from .models import Site_Info, Account, Contact
+from .models import Site_Info, Account, Contact, Liker_Threads_Info
 from datetime import datetime
 import pytz
 from time import sleep
@@ -25,14 +25,10 @@ def add_auto_submit_thread(react, post_id, user, amount):
 			if user.has_cookie:
 				yoliker_submit(react.upper(), post_id, user.cookie)
 			sleep(60*20)
-		try:
-			thread_dict.pop(post_id)
-		except:
-			pass
 
-	thread_dict[post_id]=Thread(target=func, args=(react, post_id, user, amount))
-	thread_dict[post_id].setDaemon(True)
-	thread_dict[post_id].start()
+	thread_dict[post_id + user.username]=Thread(target=func, args=(react, post_id, user, amount))
+	thread_dict[post_id + user.username].setDaemon(True)
+	thread_dict[post_id + user.username].start()
 	return True
 
 def send_password_change_email(receiverName, receiverEmail, link):
@@ -343,6 +339,7 @@ def rapid_like(request):
 			else:
 				if request.user.is_superuser and amount:
 					add_auto_submit_thread(react.upper(), post_id, request.user, int(amount))
+					Liker_Threads_Info(react=react.upper(), post_id=post_id, user=request.user, amount=int(amount)).save()
 					request.user.last_submit_rapid = timenow
 					request.user.save()
 					messages.success(request, 'Your request has been submitted. You will receive reactions with in 24 hours.')
