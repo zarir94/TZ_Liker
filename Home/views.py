@@ -75,10 +75,12 @@ def send_contact_email(userName, userEmail, userSubject, userMessage):
 class Email_Validator():
 	def __init__(self, email:str):
 		self.email=email
-		self.resp1=get('https://nobounce.onrender.com/isdelivrable/'+email)
-		self.resp2=get('https://nobounce.onrender.com/istemp/'+email)
-		self.temp_mail=self.resp2.json()
-		self.valid_mail=True if self.resp1.json()['Delivrable']=='True' else False
+		# self.resp1=get('https://nobounce.onrender.com/isdelivrable/'+email)
+		# self.resp2=get('https://nobounce.onrender.com/istemp/'+email)
+		# self.temp_mail=self.resp2.json()
+		# self.valid_mail=True if self.resp1.json()['Delivrable']=='True' else False
+        self.temp_mail=False
+        self.valid_mail=True
 	@property
 	def is_valid(self):
 		return self.valid_mail
