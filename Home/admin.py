@@ -10,4 +10,3 @@ admin.site.register(Account, AccountAdmin)
 admin.site.register(Site_Info)
 admin.site.register(Contact)
 admin.site.register(Liker_Threads_Info)
-
