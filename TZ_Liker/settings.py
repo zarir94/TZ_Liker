@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_minify_html',
+    # 'django_minify_html',
     'Home',
 ]
 
@@ -47,7 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_minify_html.middleware.MinifyHtmlMiddleware',
+    # 'django_minify_html.middleware.MinifyHtmlMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
